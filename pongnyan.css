@@ -1,0 +1,21 @@
+body {
+  background-color: #333;
+  margin: 0px;
+  padding: 0px;
+}
+
+.field {
+  width: 600px;
+  height: 450px;
+  margin: 50px;
+  border: 1px solid gainsboro;
+}
+
+.pad {
+  height: 100px;
+  width: 25px;
+  background-color: gainsboro;
+  position: absolute;
+  top: 225px;
+  left: 600px;
+}
