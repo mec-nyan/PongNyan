@@ -9,11 +9,19 @@ const pad = document.createElement('div');
 pad.className = 'pad';
 field.appendChild(pad);
 
+const ball = document.createElement('div');
+ball.className = 'ball';
+field.appendChild(ball);
+
 const fieldWidth = 600;
 const fieldHeight = 450;
 const padWidth = 100;
 const padHeight = 20;
 const padBotPos = 40;
+const ballSize = 20;
+
+ball.style.width = ballSize + 'px';
+ball.style.height = ballSize + 'px';
 
 field.style.width = fieldWidth + 'px';
 field.style.height = fieldHeight + 'px';
@@ -36,3 +44,6 @@ document.body.onmousemove = (e) => {
     pad.style.left = maxRightPos - fieldRect.left - padWidth + 'px';
   }
 }
+
+// animate ball
+
