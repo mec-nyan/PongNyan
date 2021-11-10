@@ -38,40 +38,28 @@ pad.style.height = padHeight + 'px';
 pad.style.bottom = padBotPos + 'px';
 pad.style.left = (fieldWidth - padWidth) / 2 + 'px';
 
-const fieldRect = field.getBoundingClientRect();
-const ballRect = ball.getBoundingClientRect();
+const minLeftPos = 10;
+const maxRightPos = (fieldWidth - 10) - padWidth;
 
-const minLeftPos = fieldRect.left + 10;
-const maxRightPos = fieldRect.right - 10;
+let ballX = (fieldWidth - ballSize) / 2;
+let ballY = padY - ballSize;
+ball.style.top = ballY + 'px';
+ball.style.left = ballX + 'px';
+let isBallMoving = false;
 
 document.body.onmousemove = (e) => {
-  if (e.clientX >= minLeftPos && e.clientX + padWidth <= maxRightPos) {
-    padX = e.clientX - fieldRect.left;
-  } else if (e.clientX <= minLeftPos) {
-    padX = minLeftPos - fieldRect.left;
-  } else if (e.clientX + padWidth >= maxRightPos) {
-    padX = maxRightPos - fieldRect.left - padWidth;
-  }
+  padX = e.clientX;
+  if (padX < minLeftPos) padX = minLeftPos;
+  if (padX > maxRightPos) padX = maxRightPos;
   pad.style.left = padX + 'px';
+
+  if (!isBallMoving) {
+    ballX = padX + (padWidth - ballSize) / 2;
+    ball.style.left = ballX + 'px';
+  }
 }
 
-// animate the ball
-/*
-let ballPos = 0;
-const speed = 2;
-const maxBallPos = fieldRect.width - ballSize - 1 - speed;
-ball.style.left = ballPos;
 
-const int = setInterval(() => {
-  if (ballPos < maxBallPos) {
-    ballPos += speed;
-    ball.style.left = ballPos + 'px';
-  }
-}, 1000/60);
-*/
-
-// let start at 0,0 (x,y)
-let ballX = 0, ballY = 0;
 // boundaries
 let minX = 0, minY = 0, maxX = fieldWidth, maxY = fieldHeight;
 // speed
@@ -79,7 +67,7 @@ let speedX = 2, speedY = 2;
 // direction
 let dirX = +1, dirY = +1;
 
-// let's move it!
+
 const move = () => {
   ballX += speedX * dirX;
   ballY += speedY * dirY;
@@ -89,8 +77,9 @@ const move = () => {
 
   // check collision with our pad
   if (ballX >= padX && ballX + ballSize <= padX + padWidth) {
-    if (ballY + ballSize === padY) {
+    if (ballY + ballSize + speedY >= padY) {
       dirY *= -1;
+      ++count;
     }
   }
   
@@ -100,4 +89,4 @@ const move = () => {
   info.innerText = `x: ${ballX}px\ny: ${ballY}px`;
 }
 
-const int = setInterval(move, 1000/60);
+
