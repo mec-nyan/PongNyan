@@ -13,20 +13,19 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  cursor: none;
 }
 
 .field {
-  width: 600px;
-  height: 450px;
-  border: 1px solid gainsboro;
-  background-color: #222;
+  border: 1px solid #444;
+  background-color: #282828;
+  border-radius: 8px;
   position: relative;
 }
 
 .pad {
-  height: 25px;
-  width: 100px;
-  background-color: gainsboro;
+  background-color: #666;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 8px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
   position: absolute;
-  bottom: 50px;
 }
