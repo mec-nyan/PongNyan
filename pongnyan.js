@@ -5,6 +5,11 @@ const field = document.createElement('div');
 field.className = 'field';
 root.appendChild(field);
 
+const info = document.createElement('span');
+info.innerText = 'info';
+info.className = 'info';
+root.appendChild(info);
+
 const pad = document.createElement('div');
 pad.className = 'pad';
 field.appendChild(pad);
@@ -19,6 +24,8 @@ const padWidth = 100;
 const padHeight = 20;
 const padBotPos = 40;
 const ballSize = 20;
+let padX = 0;
+let padY = fieldHeight - (padBotPos + padHeight);
 
 ball.style.width = ballSize + 'px';
 ball.style.height = ballSize + 'px';
@@ -39,12 +46,13 @@ const maxRightPos = fieldRect.right - 10;
 
 document.body.onmousemove = (e) => {
   if (e.clientX >= minLeftPos && e.clientX + padWidth <= maxRightPos) {
-    pad.style.left = e.clientX - fieldRect.left + 'px';
+    padX = e.clientX - fieldRect.left;
   } else if (e.clientX <= minLeftPos) {
-    pad.style.left = minLeftPos - fieldRect.left + 'px';
+    padX = minLeftPos - fieldRect.left;
   } else if (e.clientX + padWidth >= maxRightPos) {
-    pad.style.left = maxRightPos - fieldRect.left - padWidth + 'px';
+    padX = maxRightPos - fieldRect.left - padWidth;
   }
+  pad.style.left = padX + 'px';
 }
 
 // animate the ball
@@ -73,23 +81,23 @@ let dirX = +1, dirY = +1;
 
 // let's move it!
 const move = () => {
-  if (speedX > 0) {
-    if (ballRect.right + speedX > fieldRect.right) speedX *= -1;
-  } else {
-    if (ballRect.left + speedX < 0) speedX *= -1;
-  }
+  ballX += speedX * dirX;
+  ballY += speedY * dirY;
 
-  if (speedY > 0) {
-    if (ballRect.bottom + speedY > fieldRect.bottom) speedY *= -1;
-  } else {
-    if (ballRect.top + speedY < 0) speedY *= -1;
+  if (ballX <= 0 || ballX + ballSize >= fieldWidth) dirX *= -1;
+  if (ballY <= 0 || ballY + ballSize >= fieldHeight) dirY *= -1;
+
+  // check collision with our pad
+  if (ballX >= padX && ballX + ballSize <= padX + padWidth) {
+    if (ballY + ballSize === padY) {
+      dirY *= -1;
+    }
   }
   
-  ballX += speedX;
-  ballY += speedY;
-
   ball.style.left = ballX + 'px';
   ball.style.top = ballY + 'px';
+
+  info.innerText = `x: ${ballX}px\ny: ${ballY}px`;
 }
 
-const int = setInterval(move, 1000/30);
+const int = setInterval(move, 1000/60);
