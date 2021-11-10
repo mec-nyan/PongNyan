@@ -91,3 +91,5 @@ const move = () => {
   ball.style.left = ballX + 'px';
   ball.style.top = ballY + 'px';
 }
+
+const int = setInterval(move, 1000/30);
