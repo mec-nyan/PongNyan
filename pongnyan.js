@@ -46,4 +46,14 @@ document.body.onmousemove = (e) => {
 }
 
 // animate ball
+let ballPos = 0;
+const speed = 2;
+const maxBallPos = fieldRect.width - ballSize - 1 - speed;
+ball.style.left = ballPos;
 
+const int = setInterval(() => {
+  if (ballPos < maxBallPos) {
+    ballPos += speed;
+    ball.style.left = ballPos + 'px';
+  }
+}, 1000/60);
