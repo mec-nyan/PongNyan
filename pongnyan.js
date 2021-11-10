@@ -32,6 +32,8 @@ pad.style.bottom = padBotPos + 'px';
 pad.style.left = (fieldWidth - padWidth) / 2 + 'px';
 
 const fieldRect = field.getBoundingClientRect();
+const ballRect = ball.getBoundingClientRect();
+
 const minLeftPos = fieldRect.left + 10;
 const maxRightPos = fieldRect.right - 10;
 
@@ -45,7 +47,8 @@ document.body.onmousemove = (e) => {
   }
 }
 
-// animate ball
+// animate the ball
+/*
 let ballPos = 0;
 const speed = 2;
 const maxBallPos = fieldRect.width - ballSize - 1 - speed;
@@ -57,3 +60,34 @@ const int = setInterval(() => {
     ball.style.left = ballPos + 'px';
   }
 }, 1000/60);
+*/
+
+// let start at 0,0 (x,y)
+let ballX = 0, ballY = 0;
+// boundaries
+let minX = 0, minY = 0, maxX = fieldWidth, maxY = fieldHeight;
+// speed
+let speedX = 2, speedY = 2;
+// direction
+let dirX = +1, dirY = +1;
+
+// let's move it!
+const move = () => {
+  if (speedX > 0) {
+    if (ballRect.right + speedX > fieldRect.right) speedX *= -1;
+  } else {
+    if (ballRect.left + speedX < 0) speedX *= -1;
+  }
+
+  if (speedY > 0) {
+    if (ballRect.bottom + speedY > fieldRect.bottom) speedY *= -1;
+  } else {
+    if (ballRect.top + speedY < 0) speedY *= -1;
+  }
+  
+  ballX += speedX;
+  ballY += speedY;
+
+  ball.style.left = ballX + 'px';
+  ball.style.top = ballY + 'px';
+}
