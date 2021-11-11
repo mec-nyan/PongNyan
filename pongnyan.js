@@ -19,8 +19,34 @@ class Rect {
   }
 
   getRect() {
-    return [this.left, this.top, this.width, this.height];
+    return [this.left, this.top, this.right, this.bottom];
   }
+
+  getNewPos(x, y) {
+    return { left: x, top: y, right: x + this.width, bottom: y + this.height };
+  }
+
+  setLeft(left) { 
+    this.left = left;
+    this.right = left + this.width;
+  }
+
+  setRight(right) { 
+    this.left = right - this.width;
+    this.right = right;
+  }
+
+  setTop(top) { 
+    this.top = top;
+    this.bottom = top + this.height;
+  }
+
+  setBottom(bottom) { 
+    this.top = bottom - this.height;
+    this.bottom = bottom;
+  }
+
+  updatePos() { }
 }
 
 // A 'rect' within the DOM
@@ -42,23 +68,24 @@ class Visual extends Rect {
     }
   }
 
-  move(x) {
+  moveX(x) {
     this.left = x;
     this.visual.style.left = this.left + 'px';
   }
-}
 
-// The ball overloads the move() method
-class Ball extends Visual {
-  constructor(width, height, left, top, name) {
-    super(width, height, left, top, name);
+  moveY(y) {
+    this.top = y;
+    this.visual.style.top = this.top + 'px';
   }
 
-  move(x, y) {
-    this.left = x;
-    this.top = y;
-    this.visual.style.left = this.left;
-    this.visual.style.top = this.top;
+  moveXY(x, y) {
+    this.moveX(x);
+    this.moveY(y);
+  }
+
+  updatePos() {
+    this.visual.style.left = this.left + 'px';
+    this.visual.style.top = this.top + 'px';
   }
 }
 
@@ -89,8 +116,8 @@ let ballX = (fieldWidth - ballSize) / 2;
 let ballY = padY - ballSize;
 let isBallMoving = false;
 
-const ball = new Ball(ballSize, ballSize, ballX, ballY, 'ball', true);
-field.visual.appendChild(ball);
+const ball = new Visual(ballSize, ballSize, ballX, ballY, 'ball', true);
+field.visual.appendChild(ball.visual);
 
 
 
@@ -98,18 +125,16 @@ document.body.onmousemove = (e) => {
   padX = e.clientX;
   if (padX < minLeftPos) padX = minLeftPos;
   if (padX > maxRightPos) padX = maxRightPos;
-  pad.move(padX);
+  pad.moveX(padX);
 
   if (!isBallMoving) {
     ballX = padX + (padWidth - ballSize) / 2;
-    ball.style.left = ballX + 'px';
+    ball.moveX(ballX);
   }
 }
 
 document.body.onmousedown = () => isBallMoving = true;
 
-// boundaries
-let minX = 0, minY = 0, maxX = fieldWidth, maxY = fieldHeight;
 // speed
 let speedX = 4, speedY = 4;
 // direction
@@ -117,37 +142,24 @@ let dirX = +1, dirY = -1;
 
 
 const move = () => {
-  let newX, newY;
-  let ballLeft, ballRight, ballTop, ballBottom;
-  let wallLeft, wallRight, wallTop, wallBottom;
-  let padLeft, padRight, padTop, padBottom;
 
   if (isBallMoving) {
+    ballX += speedX * dirX;
+    ballY += speedY * dirY;
+
+    ball.setLeft(ballX);
+    ball.setTop(ballY);
+
+    if (ball.left < 0) ball.setLeft(0);
+    if (ball.right > field.width) ball.setRight(field.width);
+    if (ball.top < 0) ball.setTop(0);
+    if (ball.bottom > field.height) ball.setBottom(field.height);
+
+    ball.updatePos();
+
     // check collision with our pad and walls
-    ballLeft = ballX;
-    ballRight = ballX + ballSize;
-    ballTop = ballY;
-    ballBottom = ballY + ballSize;
-
-    wallLeft = 0;
-    wallRight = fieldWidth;
-    wallTop = 0;
-    wallBottom = fieldHeight;
-
-    padTop = padY;
-    padBottom = padTop + padHeight;
-    padLeft = padX;
-    padRight = padLeft + padWidth;
-
-    newX = ballX + (speedX * dirX);
-    newY = ballY + (speedY * dirY);
-
-    // wall collision
-    if (newX <= wallLeft || newX >= wallRight) dirX *= -1;
-    if (newY <= wallTop || newY >= wallBottom) dirY *= -1;
-
-    ball.style.left = ballX + 'px';
-    ball.style.top = ballY + 'px';
+    if (ball.left <= 0 || ball.right >= field.width) dirX *= -1;
+    if (ball.top <= 0 || ball.bottom >= field.height) dirY *= -1;
 
     info.innerText = `x: ${ballX}px\ny: ${ballY}px`;
   }
