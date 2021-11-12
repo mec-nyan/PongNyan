@@ -1,0 +1,26 @@
+body 
+{
+  margin: 0px;
+  padding: 0px;
+}
+
+#root 
+{
+  width: 100vw;
+  height: 100vh;
+  border: none;
+  background-color: #2f2f2f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: none;
+}
+
+.info
+{
+  color: #7f7f7f;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
