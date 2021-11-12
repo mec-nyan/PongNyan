@@ -56,6 +56,9 @@ class Rect {
 
   reset() {
     [ this.width, this.height, this.left, this.top ] = this.initialState;
+    this.bottom = this.top + this.height;
+    this.right = this.left + this.width;
+    console.log(this.initialState);
   }
 
   collides(rect) {
@@ -169,17 +172,19 @@ document.body.onmousemove = (e) => {
 document.body.onmousedown = () => isBallMoving = true;
 
 // speed
-let speedX = 4, speedY = 4;
+let speedX = 2, speedY = 2;
 // direction
 let dirX = +1, dirY = -1;
 
 const restart = () => {
   isBallMoving = false;
-  dirY = -1;
   ball.reset();
   ball.updatePos();
   pad.reset();
   pad.updatePos();
+  ballX = ball.left;
+  ballY = ball.top;
+  console.log('dirY: ', dirY);
 }
 
 const move = () => {
@@ -228,4 +233,4 @@ const move = () => {
 }
 
 
-setInterval(move, 1000/60);
+setInterval(move, 1000/120);
