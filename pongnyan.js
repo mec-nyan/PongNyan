@@ -16,6 +16,11 @@ class Rect {
     this.right = left + width;
     this.top = top;
     this.bottom = top + height;
+    // corners
+    this.topleft = [ this.top, this.left ];
+    this.topright = [ this.top, this.right ];
+    this.bottomleft = [ this.bottom, this.left ];
+    this.bottomright = [ this.bottom, this.right ];
   }
 
   getRect() {
@@ -47,6 +52,29 @@ class Rect {
   }
 
   updatePos() { }
+
+  collides(rect) {
+    // check for collision between two rects
+
+    // corner collision
+    if (this.topleft == rect.bottomright 
+        || this.topright == rect.bottomleft
+        || this.bottomleft == rect.topright
+        || this.bottomright == rect.topleft) {
+      return 'corner';
+    }
+
+    if (this.left < rect.right && this.right > rect.left) {
+      if (this.bottom >= rect.top && this.top < rect.top) return 'bottom';
+      if (this.top <= rect.bottom && this.bottom > rect.bottom) return 'top';
+    }
+
+    if (this.bottom > rect.top && this.top < rect.bottom) {
+      if (this.right > rect.left && this.left < rect.left) return 'right';
+      if (this.left < rect.right && this.right > rect.right) return 'left';
+    }
+    return 'none';
+  }
 }
 
 // A 'rect' within the DOM
@@ -160,6 +188,25 @@ const move = () => {
     // check collision with our pad and walls
     if (ball.left <= 0 || ball.right >= field.width) dirX *= -1;
     if (ball.top <= 0 || ball.bottom >= field.height) dirY *= -1;
+
+    // ball and pad collision
+    let collision = ball.collides(pad);
+    switch (collision) {
+      case 'bottom':
+      case 'top':
+        dirY *= -1;
+        break;
+      case 'left':
+      case 'right':
+        dirX *= -1;
+        break;
+      case 'corner':
+        dirX *= -1;
+        dirY *= -1;
+        break;
+      default:
+        break;
+    }
 
     info.innerText = `x: ${ballX}px\ny: ${ballY}px`;
   }
