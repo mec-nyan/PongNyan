@@ -10,6 +10,7 @@ root.appendChild(info);
 // Basic rect properties
 class Rect {
   constructor(width, height, left, top) {
+    this.initialState = [ width, height, left, top ];
     this.width = width;
     this.height = height;
     this.left = left;
@@ -52,6 +53,10 @@ class Rect {
   }
 
   updatePos() { }
+
+  reset() {
+    [ this.width, this.height, this.left, this.top ] = this.initialState;
+  }
 
   collides(rect) {
     // check for collision between two rects
@@ -97,12 +102,12 @@ class Visual extends Rect {
   }
 
   moveX(x) {
-    this.left = x;
+    this.setLeft(x);
     this.visual.style.left = this.left + 'px';
   }
 
   moveY(y) {
-    this.top = y;
+    this.setTop(y);
     this.visual.style.top = this.top + 'px';
   }
 
@@ -168,6 +173,14 @@ let speedX = 4, speedY = 4;
 // direction
 let dirX = +1, dirY = -1;
 
+const restart = () => {
+  isBallMoving = false;
+  dirY = -1;
+  ball.reset();
+  ball.updatePos();
+  pad.reset();
+  pad.updatePos();
+}
 
 const move = () => {
 
@@ -187,7 +200,9 @@ const move = () => {
 
     // check collision with our pad and walls
     if (ball.left <= 0 || ball.right >= field.width) dirX *= -1;
-    if (ball.top <= 0 || ball.bottom >= field.height) dirY *= -1;
+    if (ball.top <= 0) dirY *= -1;
+    // if the ball hits the bottom, reset
+    if (ball.bottom >= field.height) restart();
 
     // ball and pad collision
     let collision = ball.collides(pad);
