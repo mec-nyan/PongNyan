@@ -45,7 +45,7 @@ const brickTotalHeight = brickHeight + 2 * padding;
 const brickTotalWidth = brickWidth + 2 * padding;
 
 const bricks = [];
-const rows = ['blue', 'red', 'green', 'yellow'];
+const rows = ['border', 'border', 'border'];
 
 for (let i = 0; i < rows.length; ++i) {
   for (let j = 0; j < 5; ++j) {

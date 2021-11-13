@@ -13,20 +13,28 @@
 
 .blue
 {
-  background-color: #558;
+  background-color: #667292;
 }
 
 .yellow
 {
-  background-color: #885;
+  background-color: #daebe8;
 }
 
 .red 
 {
-  background-color: #855;
+  background-color: #8d9db6;
 }
 
 .green 
 {
-  background-color: #585;
+  background-color: #bccad6;
+}
+
+.border 
+{
+  background-color: transparent;
+  border: 1px solid #667292;
+  border-bottom-width: 2px;
+  border-radius: 4px;
 }
