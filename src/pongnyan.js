@@ -36,8 +36,8 @@ const ball = new Visual(ballSize, ballSize, ballX, ballY, 'ball', true);
 field.visual.appendChild(ball.visual);
 
 
-document.body.onmousemove = (e) => {
-  padX = e.clientX;
+const movePadAndBall = x => {
+  padX = x;
   if (padX < minLeftPos) padX = minLeftPos;
   if (padX > maxRightPos) padX = maxRightPos;
   pad.moveX(padX);
@@ -48,8 +48,52 @@ document.body.onmousemove = (e) => {
   }
 }
 
+document.body.onmousemove = (e) => {
+  movePadAndBall(e.clientX);
+}
+
 document.body.onmousedown = () => isBallMoving = true;
 
+let goLeft = false;
+let goRight = false;
+
+document.body.onkeydown = e => {
+  switch (e.code) {
+    case 'KeyH':
+    case 'KeyA':
+      goLeft = true;
+      break;
+    case 'KeyL':
+    case 'KeyD':
+      goRight = true;
+      break;
+    case 'KeyJ':
+    case 'KeyW':
+    case 'Space':
+      isBallMoving = true;
+      break;
+    default:
+      break;
+  }
+}
+
+document.body.onkeyup = e => {
+  switch (e.code) {
+    case 'KeyH':
+    case 'KeyA':
+      goLeft = false;
+      break;
+    case 'KeyL':
+    case 'KeyD':
+      goRight = false;
+      break;
+    default:
+      break;
+  }
+}
+
+// pad speed
+let padSpeed = 4;
 // speed
 let speedX = 2, speedY = 2;
 // direction
@@ -66,6 +110,16 @@ const restart = () => {
 }
 
 const move = () => {
+
+  if (goLeft) {
+    let x = pad.left - padSpeed;
+    movePadAndBall(x);
+  }
+
+  if (goRight) {
+    let x = pad.left + padSpeed;
+    movePadAndBall(x);
+  }
 
   if (isBallMoving) {
     ballX += speedX * dirX;
