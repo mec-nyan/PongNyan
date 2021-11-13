@@ -37,15 +37,22 @@ field.visual.appendChild(ball.visual);
 
 // bricks
 const marginLeft = 50;
-const paddingLeft = 10;
+const marginTop = 20;
+const padding = 5;
 const brickHeight = 20;
-const brickWidth = 80;
+const brickWidth = 90;
+const brickTotalHeight = brickHeight + 2 * padding;
+const brickTotalWidth = brickWidth + 2 * padding;
 
 const bricks = [];
+const rows = ['blue', 'red', 'green', 'yellow'];
 
-for (let i = 0; i < 5; ++i) {
-  let x = marginLeft + paddingLeft + (brickWidth + 2 * paddingLeft) * i;
-  bricks.push(new Visual(brickWidth, brickHeight, x, 20, 'brick', true));
+for (let i = 0; i < rows.length; ++i) {
+  for (let j = 0; j < 5; ++j) {
+    let y = marginTop + padding + brickTotalHeight * i;
+    let x = marginLeft + padding + brickTotalWidth * j;
+    bricks.push(new Visual(brickWidth, brickHeight, x, y, `brick ${rows[i]}`, true));
+  }
 }
 
 for (let b of bricks) field.visual.appendChild(b.visual);
@@ -154,6 +161,7 @@ const move = () => {
     if (ball.top <= 0) dirY *= -1;
     // if the ball hits the bottom, reset
     if (ball.bottom >= field.height) restart();
+    if (bricks.length === 0) restart();
 
     // ball and pad collision
     let collision = ball.collides(pad);
@@ -170,19 +178,19 @@ const move = () => {
         break;
     }
 
-    for (let b of bricks) {
-      let brickCollision = ball.collides(b);
-      switch (brickCollision) {
-        case 'bottom':
-        case 'top':
-          dirY *= -1;
-          break;
-        case 'left':
-        case 'right':
-          dirX *= -1;
-          break;
-        default:
-          break;
+    for (let i = 0; i < bricks.length; ++i) {
+      let brickCollision = ball.collides(bricks[i]);
+      if (brickCollision === 'top' || brickCollision === 'bottom') {
+        dirY *= -1;
+        bricks[i].visual.className = 'invisible';
+        bricks.splice(i, 1);
+        break;
+      }
+      if (brickCollision === 'left' || brickCollision === 'right') {
+        dirX *= -1;
+        bricks[i].visual.className = 'invisible';
+        bricks.splice(i, 1);
+        break;
       }
     }
 
