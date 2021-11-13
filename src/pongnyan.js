@@ -35,6 +35,20 @@ let isBallMoving = false;
 const ball = new Visual(ballSize, ballSize, ballX, ballY, 'ball', true);
 field.visual.appendChild(ball.visual);
 
+// bricks
+const marginLeft = 50;
+const paddingLeft = 10;
+const brickHeight = 20;
+const brickWidth = 80;
+
+const bricks = [];
+
+for (let i = 0; i < 5; ++i) {
+  let x = marginLeft + paddingLeft + (brickWidth + 2 * paddingLeft) * i;
+  bricks.push(new Visual(brickWidth, brickHeight, x, 20, 'brick', true));
+}
+
+for (let b of bricks) field.visual.appendChild(b.visual);
 
 const movePadAndBall = x => {
   padX = x;
@@ -154,6 +168,22 @@ const move = () => {
         break;
       default:
         break;
+    }
+
+    for (let b of bricks) {
+      let brickCollision = ball.collides(b);
+      switch (brickCollision) {
+        case 'bottom':
+        case 'top':
+          dirY *= -1;
+          break;
+        case 'left':
+        case 'right':
+          dirX *= -1;
+          break;
+        default:
+          break;
+      }
     }
 
     info.innerText = `x: ${ballX}px\ny: ${ballY}px`;

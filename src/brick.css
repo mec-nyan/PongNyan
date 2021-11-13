@@ -1,0 +1,7 @@
+.brick 
+{
+  background-color: steelblue;
+  box-shadow: 4px 8px 2px rgba(0, 0, 0, 0.9);
+  border-radius: 4px;
+  position: absolute;
+}
