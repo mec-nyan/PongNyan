@@ -1,7 +1,9 @@
 .brick 
 {
   box-shadow: 4px 8px 2px rgba(0, 0, 0, 0.9);
-  border-radius: 2px;
+  border-radius: 0px;
+  border-width: 1px;
+  border-style: solid;
   position: absolute;
   z-index: 97;
 }
@@ -11,30 +13,22 @@
   display: none;
 }
 
-.blue
+.dark
 {
-  background-color: #667292;
+  border-color: #667292;
 }
 
-.yellow
+.middle 
 {
-  background-color: #daebe8;
+  border-color: #8d9db6;
 }
 
-.red 
+.light 
 {
-  background-color: #8d9db6;
+  border-color: #bccad6;
 }
 
-.green 
+.lighter
 {
-  background-color: #bccad6;
-}
-
-.border 
-{
-  background-color: transparent;
-  border: 1px solid #667292;
-  border-bottom-width: 2px;
-  border-radius: 4px;
+  border-color: #daebe8;
 }

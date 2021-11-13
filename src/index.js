@@ -1,4 +1,9 @@
 import Visual from './visual';
+import './pongnyan.css';
+import './pad.css';
+import './ball.css';
+import './brick.css';
+import './field.css';
 
 
 // Pong like game, in Javascript
@@ -39,19 +44,19 @@ const ball = new Visual(ballSize, ballSize, ballX, ballY, 'ball', true);
 field.visual.appendChild(ball.visual);
 
 // bricks
-const marginLeft = 50;
+const marginLeft = 20;
 const marginTop = 20;
-const padding = 5;
+const padding = 2;
 const brickHeight = 20;
-const brickWidth = 90;
+const brickWidth = 66;
 const brickTotalHeight = brickHeight + 2 * padding;
 const brickTotalWidth = brickWidth + 2 * padding;
 
 const bricks = [];
-const rows = ['border', 'border', 'border'];
+const rows = ['dark', 'middle', 'light', 'lighter'];
 
 for (let i = 0; i < rows.length; ++i) {
-  for (let j = 0; j < 5; ++j) {
+  for (let j = 0; j < 8; ++j) {
     let y = marginTop + padding + brickTotalHeight * i;
     let x = marginLeft + padding + brickTotalWidth * j;
     bricks.push(new Visual(brickWidth, brickHeight, x, y, `brick ${rows[i]}`, true));
@@ -72,9 +77,11 @@ const movePadAndBall = x => {
   }
 }
 
+/*
 document.body.onmousemove = (e) => {
   movePadAndBall(e.clientX);
 }
+*/
 
 document.body.onmousedown = () => isBallMoving = true;
 
