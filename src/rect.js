@@ -53,13 +53,22 @@ class Rect {
 
   collides(rect) {
     // check for collision between two rects
-
-    if (this.left <= rect.right && this.right >= rect.left) {
+    // we'll do something like this
+    // +--+-----------------+--+
+    // |tl|      top        |tr|
+    // +--+-----------------+--+
+    // |  |                 |  |
+    // |l |                 |r |
+    // |  |                 |  |
+    // +--+-----------------+--+
+    // |bl|    bottom       |br|
+    // +--+-----------------+--+
+    
+    // bottom - top collision
+    if (this.right >= rect.left && this.left <= rect.right) {
       if (this.bottom >= rect.top && this.top < rect.top) return 'bottom';
       if (this.top <= rect.bottom && this.bottom > rect.bottom) return 'top';
     }
-
-    else
 
     if (this.bottom >= rect.top && this.top <= rect.bottom) {
       if (this.right >= rect.left && this.left < rect.left) return 'right';

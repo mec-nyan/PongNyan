@@ -93,9 +93,9 @@ document.body.onkeyup = e => {
 }
 
 // pad speed
-let padSpeed = 4;
+let padSpeed = 8;
 // speed
-let speedX = 2, speedY = 2;
+let speedX = 4, speedY = 4;
 // direction
 let dirX = +1, dirY = -1;
 
@@ -161,4 +161,4 @@ const move = () => {
 }
 
 
-setInterval(move, 1000/120);
+setInterval(move, 1000/60);
