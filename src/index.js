@@ -1,3 +1,6 @@
+import Visual from './visual';
+
+
 // Pong like game, in Javascript
 const root = document.getElementById('root');
 

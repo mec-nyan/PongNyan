@@ -1,3 +1,5 @@
+import Rect from './rect';
+
 // A 'rect' within the DOM
 class Visual extends Rect {
   constructor(width, height, left, top, className, positionAbsolute=false) {
@@ -38,3 +40,4 @@ class Visual extends Rect {
   }
 }
 
+export default Visual;
