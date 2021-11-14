@@ -17,11 +17,12 @@ const levels = {
   level1: [],
   level2: [],
   level3: [],
+  level4: [],
 }
 
 // Let's create the first levels
 for (let i = 0; i < 3; ++i) {
-  for (let j = 0; j < i + 2; ++j) {
+  for (let j = 0; j < i + 1; ++j) {
     for (let k = 0; k < 8; ++k) {
       let y = marginTop + padding + brickTotalHeight * j
       let x = marginLeft + padding + brickTotalWidth * k
