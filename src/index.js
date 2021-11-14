@@ -119,6 +119,7 @@ const restart = () => {
   ballY = ball.top;
 }
 
+let level = 1;
 let bricks = levels.level1;
 for (let b of bricks) field.visual.appendChild(b.visual);
 
@@ -153,7 +154,14 @@ const move = () => {
     if (ball.top <= 0) dirY *= -1;
     // if the ball hits the bottom, reset
     if (ball.bottom >= field.height) restart();
-    if (bricks.length === 0) restart();
+    if (bricks.length === 0) {
+      restart();
+      ++level;
+      if (level <= 3) {
+        bricks = levels[`level${level}`];
+        for (let b of bricks) field.visual.appendChild(b.visual);
+      }
+    }
 
     // ball and pad collision
     let collision = ball.collides(pad);
