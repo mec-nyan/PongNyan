@@ -1,4 +1,5 @@
 import Visual from './visual';
+import levels from './levels';
 import './pongnyan.css';
 import './pad.css';
 import './ball.css';
@@ -42,28 +43,6 @@ let isBallMoving = false;
 
 const ball = new Visual(ballSize, ballSize, ballX, ballY, 'ball', true);
 field.visual.appendChild(ball.visual);
-
-// bricks
-const marginLeft = 20;
-const marginTop = 20;
-const padding = 2;
-const brickHeight = 20;
-const brickWidth = 66;
-const brickTotalHeight = brickHeight + 2 * padding;
-const brickTotalWidth = brickWidth + 2 * padding;
-
-const bricks = [];
-const rows = ['dark', 'middle', 'light', 'lighter'];
-
-for (let i = 0; i < rows.length; ++i) {
-  for (let j = 0; j < 8; ++j) {
-    let y = marginTop + padding + brickTotalHeight * i;
-    let x = marginLeft + padding + brickTotalWidth * j;
-    bricks.push(new Visual(brickWidth, brickHeight, x, y, `brick ${rows[i]}`, true));
-  }
-}
-
-for (let b of bricks) field.visual.appendChild(b.visual);
 
 const movePadAndBall = x => {
   padX = x;
@@ -139,6 +118,9 @@ const restart = () => {
   ballX = ball.left;
   ballY = ball.top;
 }
+
+let bricks = levels.level1;
+for (let b of bricks) field.visual.appendChild(b.visual);
 
 const move = () => {
 
