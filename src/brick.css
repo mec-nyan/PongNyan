@@ -5,6 +5,7 @@
   border-width: 1px;
   border-style: solid;
   position: absolute;
+  background-color: #282828;
   z-index: 97;
 }
 
