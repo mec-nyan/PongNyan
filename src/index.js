@@ -30,7 +30,7 @@ const padBotPos = 40;
 let padX = (fieldWidth - padWidth) / 2;
 let padY = fieldHeight - (padBotPos + padHeight);
 
-const pad = new Visual(padWidth, padHeight, padX, padY, 'pad', true);
+const pad = new Visual(padWidth - 2, padHeight - 2, padX, padY, 'pad', true);
 field.visual.appendChild(pad.visual);
 
 const ballSize = 20;
@@ -41,7 +41,7 @@ let ballX = (fieldWidth - ballSize) / 2;
 let ballY = padY - ballSize;
 let isBallMoving = false;
 
-const ball = new Visual(ballSize, ballSize, ballX, ballY, 'ball', true);
+const ball = new Visual(ballSize - 2, ballSize - 2, ballX, ballY, 'ball', true);
 field.visual.appendChild(ball.visual);
 
 const movePadAndBall = x => {
@@ -157,7 +157,7 @@ const move = () => {
     if (bricks.length === 0) {
       restart();
       ++level;
-      if (level <= 3) {
+      if (level <= 4) {
         bricks = levels[`level${level}`];
         for (let b of bricks) field.visual.appendChild(b.visual);
       }
